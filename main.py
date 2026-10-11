@@ -7,7 +7,7 @@ templates = Jinja2Templates(directory ="templates")
 
 
 @app.get("/", response_class = HTMLResponse)
-def home(requst: Request):
+def home(request: Request):
     return templates.TemplateResponse(request, "index.html")
 
 @app.post("/schedule", response_class= HTMLResponse)
