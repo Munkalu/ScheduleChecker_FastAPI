@@ -1,3 +1,4 @@
+import itertools
 ##converts the time in hours and mins to just mins to compare to each other
 def timeToMinutes(time_str):
     hours, minutes = time_str.strip().split(":")

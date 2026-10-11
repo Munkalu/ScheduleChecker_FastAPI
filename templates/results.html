@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Results - Schedule Checker</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; margin-bottom: 2rem; }
+    th, td { border: 1px solid #999; padding: 8px; vertical-align: top; min-width: 120px; }
+    th { background: #eee; }
+    .class { margin-bottom: 6px; }
+    .error { color: darkred; }
+  </style>
+</head>
+<body>
+  <h1>Best Schedules</h1>
+
+  {% if error %}
+    <p class="error">Error: {{ error }}</p>
+  {% elif not results %}
+    <p>No conflict-free schedule found. Try adding more sections.</p>
+  {% else %}
+    {% for result in results %}
+      <h2>Option {{ loop.index }} (Score: {{ result.score }})</h2>
+      <table>
+        <tr>
+          {% for code, name in days %}<th>{{ name }}</th>{% endfor %}
+        </tr>
+        <tr>
+          {% for code, name in days %}
+            <td>
+              {% for s in result.by_day[code] %}
+                <div class="class">
+                  <b>{{ s.course }}</b> ({{ s.section }})<br>
+                  {{ s.start | time }} – {{ s.end | time }}
+                </div>
+              {% endfor %}
+            </td>
+          {% endfor %}
+        </tr>
+      </table>
+    {% endfor %}
+  {% endif %}
+
+  <a href="/">← Try again</a>
+</body>
+</html>
