@@ -24,7 +24,7 @@ def home(request: Request):
 @app.post("/schedule", response_class= HTMLResponse)
 def schedule(
     request: Request,
-    courses: str = Form(...),
+    courses: str = Form(""),
     no_early: bool = Form(False),
     fridays_free: bool = Form(False),
     min_gaps: bool = Form(False),
