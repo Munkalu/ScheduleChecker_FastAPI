@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schedule Checker</title>
+</head>
+<body>
+    <h1>Schedul Checker</h1>
+    <form action="/schedule" method ="post">
+        <p>Enter one sectoin per line: <b>Course, Section, Days, Start, End</b></p>
+        <textarea name ="courses" rows ="10" cols="60">CSCE 490, 001, MWF, 10:50, 11:40
+            CSCE 490, 002, TTh, 14:50, 16:05
+            MATH 374, 001, MWF, 9:40, 10:30
+            MATH 374, 002, MWF, 13:10, 11:20
+            STAT 509, 001, TTh, 10:05, 11:20
+            Stat 509, 002, MW, 15:30, 16:45</textarea>
+        <p><b>Preferences:</b></p>
+        <label><input type="checkbox" name="no_early"> No classes before 10am</label><br>
+        <label><input type="checkbox" name="fridays_free"> Keep Fridays free</label><br>
+        <label><input type="checkbox" name="min_gaps"> Minimize gaps between classes</label><br>
+
+        <button type = "submit">Find Best Schedule</button>
+
+    </form>
+</body>
+</html>
