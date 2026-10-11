@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from scheduler import parse_courses
 
 app = FastAPI()
 templates = Jinja2Templates(directory ="templates")
@@ -18,9 +19,5 @@ def schedule(
     min_gaps: bool = Form(False),
 ):
 
-    return f"""
-    <h2>Recieved:</h2>
-    <pre>{courses}</pre>
-    <p>No Early: {no_early} | Fridays free: {fridays_free} | Min gaps: {min_gaps}</p>
-    <a href="/">Back</a>
-    """
+    parsed = parse_courses(courses)
+    return f"<pre>{parsed}</pre><a href = '/'>Back</a>"
