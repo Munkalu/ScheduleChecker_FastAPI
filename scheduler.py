@@ -29,3 +29,11 @@ def parse_courses(text):
             courses[name] = []
         courses[name].append(section)
     return courses
+##checks the dates and start and end times of classes and determines if there are any conflicts
+def conflict_Checker(a,b):
+    shared_days = set(a["days"]) & set(b["days"])
+    if not shared_days:
+        return False
+    return a["start"]<b["end"] and b["start"] < a["end"]
+def is_valid(schedule):
+    any(itertools.combinations(schedule,2))
