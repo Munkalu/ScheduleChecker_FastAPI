@@ -35,5 +35,36 @@ def conflict_Checker(a,b):
     if not shared_days:
         return False
     return a["start"]<b["end"] and b["start"] < a["end"]
+##checks to see if a combination of classes is valid for the schedule
 def is_valid(schedule):
-    any(itertools.combinations(schedule,2))
+    return not any(conflict_Checker(a,b) for a, b in itertools.combinations(schedule,2))
+##Checks if any classes start before 10 and assigns them negative points if they do
+def early_penalty(schedule):
+    return sum(10 for s in schedule if s["start"] < 600)
+##Checks if any classes are on friday and assigns negative points if they are
+def friday_penalty(schedule):
+    return 25 if any("F" in s["days"] for s in schedule) else 0
+##determines the gap between classes and ranks them based on minimizing the gap
+def gap_penalty(schedule):
+    total_gap = 0
+    for day in ["M","T","W","R","F"]:
+        classes = sorted((s for s in schedule if day in s["days"]), key = lambda s: s["start"])
+        for earlier, later in zip(classes, classes[1:]):
+            total_gap += later["start"] - earlier["end"]
+        return total_gap // 10
+##totals up the score of each class
+def score(schedule, no_early, fridays_free, min_gaps):
+    points = 100
+    if no_early:
+        points -=early_penalty(schedule)
+    if fridays_free:
+        points -= friday_penalty(schedule)
+    if min_gaps:
+        points -= gap_penalty(schedule)
+    return points
+##determines the best possible schedule based off scores
+def best_schedules(courses, no_early, fridays_free, min_gaps, top_n=3):
+    all_combos = itertools.product(*courses.values())
+    valid = [list(c) for c in all_combos if is_valid(c)]
+    valid.sort(key= lambda s: score(s,no_early, fridays_free, min_gaps), reverse = True)
+    return valid[:top_n]
